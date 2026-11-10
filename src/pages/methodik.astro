@@ -1,6 +1,11 @@
 ---
-// Placeholder. The Builder adds the status counts from data/ and the full method (PLAN.md).
 import Base from '../layouts/Base.astro';
+import { allRecords } from '../lib/data';
+import { STATUSES, STATUS_LABELS, statusCounts } from '../lib/statusCounts';
+
+const records = allRecords();
+const counts = statusCounts(records);
+const total = records.length;
 ---
 
 <Base
@@ -9,9 +14,11 @@ import Base from '../layouts/Base.astro';
   path="/methodik/"
 >
   <h1>Methodik</h1>
+
   <section class="ruled">
     <div class="margin">§&nbsp;1</div>
     <div>
+      <h2>Quelle</h2>
       <p>
         Jeder Satz im Atlas stammt aus der Hundesteuersatzung der jeweiligen Gemeinde. Wir zitieren den Paragrafen
         wörtlich, verlinken die Satzung und nennen das Datum, an dem wir sie abgerufen haben.
@@ -19,6 +26,85 @@ import Base from '../layouts/Base.astro';
       <p>
         Tabellen des Bundes der Steuerzahler verwenden wir nicht. Was wir nicht sicher lesen können, veröffentlichen
         wir nicht.
+      </p>
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="margin">§&nbsp;2</div>
+    <div>
+      <h2>Suche nach der Satzung</h2>
+      <p>
+        Für jede Gemeinde beginnen wir bei der amtlichen Webseite. Wir lesen zuerst die Sitemap, sonst folgen wir
+        den Links der Startseite bis höchstens vier Ebenen tief und höchstens 60 Seiten je Server. Kandidaten sind
+        PDF- oder HTML-Dokumente, deren Adresse oder Linktext „Hundesteuer“ enthält. Dokumente mit „Satzung“ oder
+        „Lesefassung“ im Namen und das jüngste Jahr stehen vorn; Änderungssatzungen behalten wir als zweite Wahl.
+      </p>
+      <p>
+        Unser Abruf beachtet die robots.txt, sendet höchstens eine Anfrage pro Sekunde und Server und nennt sich
+        „HundesteuerAtlasBot“. Satzungen werden nicht auf unseren Servern nachgedruckt, wir verlinken sie.
+      </p>
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="margin">§&nbsp;3</div>
+    <div>
+      <h2>Lesen und Prüfen</h2>
+      <p>
+        Aus dem Text der Satzung suchen wir den Paragrafen über den Steuersatz, lesen die Beträge aus und ordnen
+        sie den Stufen zu. Die Bezeichnung jeder Stufe übernehmen wir wörtlich. Veröffentlicht wird nur, wenn alle
+        Prüfungen bestehen:
+      </p>
+      <ul>
+        <li>Der Betrag für den ersten Hund (oder ausdrücklich 0 €) ist gefunden.</li>
+        <li>Jeder veröffentlichte Betrag steht wörtlich im gespeicherten Auszug.</li>
+        <li>Der erste Hund kostet zwischen 0 und 400 €.</li>
+        <li>Beträge für gefährliche Hunde sind mindestens so hoch wie der für den ersten Hund.</li>
+        <li>Der Auszug enthält das Wort „Hund“.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="margin">§&nbsp;4</div>
+    <div>
+      <h2>Stand der Erfassung</h2>
+      {
+        total === 0 ? (
+          <p>Es sind noch keine Gemeinden erfasst.</p>
+        ) : (
+          <table>
+            <caption>Taf. 1 · Gemeinden in Nordrhein-Westfalen nach Status ({total} geprüft)</caption>
+            <thead>
+              <tr>
+                <th scope="col">Status</th>
+                <th scope="col">Gemeinden</th>
+              </tr>
+            </thead>
+            <tbody>
+              {STATUSES.map((s) => (
+                <tr>
+                  <th scope="row">{STATUS_LABELS[s]}</th>
+                  <td>{counts[s]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="margin">§&nbsp;5</div>
+    <div>
+      <h2>Grenzen</h2>
+      <p>
+        Gescannte Satzungen ohne Textebene lesen wir nicht (keine Texterkennung). Satzungen, die wir nicht sicher
+        deuten können, bleiben unveröffentlicht und erscheinen als „noch nicht erfasst“. Angaben ohne Gewähr:
+        Verbindlich ist allein die Satzung der Gemeinde. Einen Fehler melden Sie über den Link auf der jeweiligen
+        Gemeindeseite.
       </p>
     </div>
   </section>

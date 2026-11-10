@@ -335,4 +335,14 @@ select {
   a {
     text-decoration: none;
   }
+  .ruled,
+  table,
+  .steuermarke {
+    break-inside: avoid;
+  }
+  main a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    word-break: break-all;
+  }
 }

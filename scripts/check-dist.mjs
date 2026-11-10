@@ -98,6 +98,40 @@ for (const [name, html] of pages) {
   for (const [re, label] of required) if (!re.test(html)) fail(`${name}: missing ${label}`);
 }
 
+// Accessibility and weight basics (PLAN E).
+for (const [name, html] of pages) {
+  const h1 = (html.match(/<h1[\s>]/gi) ?? []).length;
+  if (h1 !== 1) fail(`${name}: expected one <h1>, found ${h1}`);
+  let last = 0;
+  for (const m of html.matchAll(/<h([1-6])[\s>]/gi)) {
+    const lvl = Number(m[1]);
+    if (last && lvl > last + 1) fail(`${name}: heading level jumps from h${last} to h${lvl}`);
+    last = lvl;
+  }
+  for (const m of html.matchAll(/<(input|select|textarea)\b[^>]*>/gi)) {
+    const t = m[0];
+    if (/type="(hidden|submit|button)"/i.test(t)) continue;
+    const id = attr(t, 'id');
+    const labelled = attr(t, 'aria-label') || attr(t, 'aria-labelledby') ||
+      (id && new RegExp(`<label[^>]*\\sfor="${id}"`, 'i').test(html));
+    if (!labelled) fail(`${name}: <${m[1]}> without a label`);
+  }
+  for (const m of html.matchAll(/<table\b[\s\S]*?<\/table>/gi)) {
+    if (!/<caption/i.test(m[0])) fail(`${name}: table without <caption>`);
+    if (/<th\b(?![^>]*scope=)/i.test(m[0])) fail(`${name}: <th> without scope`);
+  }
+  let js = 0;
+  for (const m of html.matchAll(/<script\b[^>]*\ssrc="([^"]+)"[^>]*>/gi)) {
+    let p = m[1];
+    if (/^https?:/i.test(p)) { try { p = new URL(p).pathname; } catch {} }
+    if (p.startsWith(base)) p = p.slice(base.length);
+    const file = path.join(dist, p.replace(/^\/+/, ''));
+    if (fs.existsSync(file)) js += fs.statSync(file).size;
+  }
+  for (const m of html.matchAll(/<script\b(?![^>]*\ssrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/gi)) js += Buffer.byteLength(m[1]);
+  if (js > 20 * 1024) fail(`${name}: first-party JS is ${js} bytes (limit 20 KB)`);
+}
+
 // Sitemap: every entry must exist and must not be noindex.
 const sitemapFile = path.join(dist, 'sitemap.xml');
 if (!fs.existsSync(sitemapFile)) fail('sitemap.xml missing');
