@@ -1,0 +1,27 @@
+---
+import { insuranceBox } from '../lib/affiliate';
+
+const box = insuranceBox(process.env.AFFILIATE_HAFTPFLICHT_URL);
+---
+
+<aside class="notice haftpflicht" aria-label={box.link ? 'Anzeige' : 'Hinweis'}>
+  <span class="label">{box.link ? box.link.adLabel : 'Hinweis'}</span>
+  <p>{box.text}</p>
+  {
+    box.link && (
+      <p>
+        <a href={box.link.href} rel={box.link.rel} data-anzeige>
+          {box.link.label}
+        </a>
+      </p>
+    )
+  }
+</aside>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('a[data-anzeige]').forEach((a) => {
+    a.addEventListener('click', () => {
+      (window as unknown as { plausible?: (e: string) => void }).plausible?.('Anzeige-Klick');
+    });
+  });
+</script>

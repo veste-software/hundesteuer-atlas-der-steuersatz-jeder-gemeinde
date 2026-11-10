@@ -1,0 +1,239 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import SteuerMarke from '../../components/SteuerMarke.astro';
+import Haftpflicht from '../../components/Haftpflicht.astro';
+import Rechner from '../../components/Rechner.astro';
+import { allRecords } from '../../lib/data';
+import { firstDogRate, formatDate, isPublished, rateValidity, totalsRows } from '../../lib/page';
+import { compareToKreis, formatEur, kreisMedian, neighbours, type RatePoint } from '../../lib/stats';
+import { absoluteUrl, withBase } from '../../lib/url';
+import type { MunicipalityRecord } from '../../lib/model';
+
+export const getStaticPaths = (() => {
+  return allRecords()
+    .filter(isPublished)
+    .map((record) => ({ params: { slug: record.slug }, props: { record } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  record: MunicipalityRecord;
+}
+const { record } = Astro.props;
+const tiers = record.tiers!;
+const bylaw = record.bylaw!;
+const buildDate = new Date();
+const validity = rateValidity(bylaw.inForceFrom, buildDate);
+const first = firstDogRate(tiers);
+const totals = totalsRows(tiers);
+const older = validity.future ? record.history?.[0] : undefined;
+
+const points: RatePoint[] = allRecords()
+  .filter(isPublished)
+  .map((r) => ({ slug: r.slug, name: r.name, kreisSlug: r.kreisSlug, firstDog: firstDogRate(r.tiers!) ?? 0 }));
+const self = points.find((p) => p.slug === record.slug)!;
+const near = neighbours(points, self);
+const kreisMed = kreisMedian(points, record.kreisSlug);
+
+const mail = import.meta.env.PUBLIC_CONTACT_EMAIL;
+const subject = encodeURIComponent(`Fehler Hundesteuer ${record.name} (AGS ${record.ags})`);
+const site = Astro.site ?? new URL('http://localhost:4321');
+const base = import.meta.env.BASE_URL;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Hundesteuer-Atlas', item: absoluteUrl('/', site, base) },
+    { '@type': 'ListItem', position: 2, name: 'NRW', item: absoluteUrl('/nrw/', site, base) },
+    { '@type': 'ListItem', position: 3, name: record.name, item: absoluteUrl(`/hundesteuer/${record.slug}/`, site, base) },
+  ],
+};
+const dates = [
+  bylaw.date ? `Satzung vom ${formatDate(bylaw.date)}` : 'Satzung',
+  validity.label ? validity.label.replace('in Kraft seit', 'in Kraft seit') : null,
+  `abgerufen am ${formatDate(bylaw.retrievedAt)}`,
+].filter(Boolean);
+const para = record.excerpt?.paragraph ?? '';
+---
+
+<Base
+  title={`Hundesteuer ${record.name}: ${first !== null ? formatEur(first) + ' für den ersten Hund' : 'Steuersätze'}`}
+  description={`Hundesteuer in ${record.name}${first !== null ? `: ${formatEur(first)} im Jahr für den ersten Hund` : ''}, zitiert aus der Hundesteuersatzung mit Paragraf, Link und Abrufdatum.`}
+  path={`/hundesteuer/${record.slug}/`}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
+
+  <nav class="label crumbs" aria-label="Brotkrumen">
+    <a href={withBase('/')}>Start</a> · <a href={withBase('/nrw/')}>NRW</a> · {record.kreis}
+  </nav>
+
+  <div class="opening">
+    <div>
+      <h1>Hundesteuer {record.name}</h1>
+      {
+        first !== null && (
+          <p>
+            {formatEur(first)} im Jahr für den ersten Hund.{para ? ` So steht es in ${para} der Satzung.` : ''}
+          </p>
+        )
+      }
+      <p class:list={['caption', { future: validity.future }]}>{dates.join(', ')}.</p>
+    </div>
+    {
+      first !== null && (
+        <SteuerMarke
+          gemeinde={record.name}
+          year={validity.year}
+          amount={first}
+          enamel={validity.future ? 'var(--emaille-2027)' : 'var(--emaille)'}
+          figure="Abb. 1"
+          caption={`Steuermarke ${record.name}. Satz für den ersten Hund${bylaw.date ? `, Satzung vom ${formatDate(bylaw.date)}` : ''}.`}
+        />
+      )
+    }
+  </div>
+
+  <section class="ruled">
+    <div class="margin">Taf. 1</div>
+    <div>
+      <h2>Steuersätze</h2>
+      {validity.future && <p class="label future">Gilt ab {formatDate(bylaw.inForceFrom)}</p>}
+      <table>
+        <caption>Taf. 1 · Steuersätze laut {para || 'Satzung'}{validity.future ? ` (${validity.label})` : ''}</caption>
+        <thead><tr><th scope="col">Bezeichnung laut Satzung</th><th scope="col" class="num">Euro im Jahr</th></tr></thead>
+        <tbody>
+          {tiers.map((t) => <tr><th scope="row">{t.label}</th><td class="num">{formatEur(t.amountEur)}</td></tr>)}
+        </tbody>
+      </table>
+      {
+        older && (
+          <table class="older">
+            <caption>Taf. 1a · Bisherige Sätze{older.bylaw.inForceFrom ? ` (in Kraft seit ${formatDate(older.bylaw.inForceFrom)})` : ''}, bis zum Inkrafttreten der neuen Satzung</caption>
+            <thead><tr><th scope="col">Bezeichnung laut Satzung</th><th scope="col" class="num">Euro im Jahr</th></tr></thead>
+            <tbody>
+              {older.tiers.map((t) => <tr><th scope="row">{t.label}</th><td class="num">{formatEur(t.amountEur)}</td></tr>)}
+            </tbody>
+          </table>
+        )
+      }
+    </div>
+  </section>
+
+  <Haftpflicht />
+
+  {
+    record.excerpt && (
+      <section class="ruled">
+        <div class="margin">{record.excerpt.paragraph}</div>
+        <div>
+          <h2>Wortlaut der Satzung</h2>
+          <blockquote>
+            <p>{record.excerpt.text}</p>
+          </blockquote>
+          <p class="caption">
+            Quelle: {bylaw.title}. <a href={bylaw.url} rel="noopener">Satzung öffnen ({bylaw.format === 'pdf' ? 'PDF' : 'Webseite'})</a>
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="ruled">
+    <div class="margin">Ermäßigungen</div>
+    <div>
+      <h2>Ermäßigungen und Befreiungen laut Satzung</h2>
+      {
+        record.reliefs?.length ? (
+          record.reliefs.map((r) => (
+            <div>
+              <h3>{r.paragraph} {r.heading}</h3>
+              <blockquote><p>{r.text}</p></blockquote>
+            </div>
+          ))
+        ) : (
+          <p>In der Satzung nicht gefunden – bitte Satzung prüfen.</p>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="margin">Taf. 2</div>
+    <div>
+      <h2>Was kostet es im Jahr?</h2>
+      <Rechner tiers={tiers} />
+      <table>
+        <caption>Taf. 2 · Steuer im Jahr nach Zahl der Hunde, berechnet aus Taf. 1</caption>
+        <thead><tr><th scope="col">Hunde</th><th scope="col" class="num">Euro im Jahr</th></tr></thead>
+        <tbody>
+          {totals.normal.map((r) => <tr><th scope="row">{r.dogs} {r.dogs === 1 ? 'Hund' : 'Hunde'}</th><td class="num">{r.total}</td></tr>)}
+          {totals.dangerous.map((r) => <tr><th scope="row">{r.dogs} gefährlich{r.dogs === 1 ? 'er Hund' : 'e Hunde'}</th><td class="num">{r.total}</td></tr>)}
+        </tbody>
+      </table>
+      {totals.hasDangerous && <p class="caption">Normale und gefährliche Hunde werden getrennt ausgewiesen. Die Zählung bei gemischter Haltung ist hier nicht berechnet; maßgeblich ist die Satzung.</p>}
+    </div>
+  </section>
+
+  {
+    near.length > 0 && (
+      <section class="ruled">
+        <div class="margin">Taf. 3</div>
+        <div>
+          <h2>Nachbargemeinden im {record.kreis}</h2>
+          <p>{record.name}: {compareToKreis(self.firstDog, kreisMed)}.</p>
+          <table>
+            <caption>Taf. 3 · Satz für den ersten Hund in der Nachbarschaft</caption>
+            <thead><tr><th scope="col">Gemeinde</th><th scope="col" class="num">1. Hund</th><th scope="col" class="num">Unterschied</th></tr></thead>
+            <tbody>
+              {near.map((n) => (
+                <tr>
+                  <th scope="row"><a href={withBase(`/hundesteuer/${n.slug}/`)}>{n.name}</a></th>
+                  <td class="num">{formatEur(n.firstDog)}</td>
+                  <td class="num">{n.diff === 0 ? '±0 €' : `${n.diff > 0 ? '+' : '−'}${formatEur(Math.abs(n.diff))}`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="ruled">
+    <div class="margin">Hinweis</div>
+    <div>
+      <p>Angaben ohne Gewähr. Verbindlich ist allein die Satzung der Gemeinde.</p>
+      {mail ? <p><a href={`mailto:${mail}?subject=${subject}`}>Fehler melden</a></p> : <p class="caption">Fehler melden: Kontaktadresse siehe <a href={withBase('/impressum/')}>Impressum</a> (AGS {record.ags}).</p>}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .crumbs {
+    padding-top: var(--s-4);
+  }
+  .opening {
+    display: grid;
+    gap: var(--s-6);
+    padding-top: var(--s-5);
+  }
+  @media (min-width: 48rem) {
+    .opening {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+  }
+  blockquote {
+    margin: 0;
+    max-width: 52ch;
+    border-top: var(--rule);
+    border-bottom: var(--rule);
+    padding: var(--s-3) 0;
+  }
+  blockquote p {
+    margin: 0;
+  }
+  .older {
+    margin-top: var(--s-5);
+  }
+</style>

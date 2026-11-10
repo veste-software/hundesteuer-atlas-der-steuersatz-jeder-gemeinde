@@ -1,0 +1,90 @@
+---
+import type { Tier } from '../lib/model';
+
+interface Props {
+  tiers: Tier[];
+  idPrefix?: string;
+}
+const { tiers, idPrefix = 'rechner' } = Astro.props;
+const hasDangerous = tiers.some((t) => t.kind === 'dangerous');
+---
+
+<form class="rechner no-print" data-tiers={JSON.stringify(tiers)} onsubmit="return false">
+  <div class="rechner__fields">
+    <div>
+      <label class="label" for={`${idPrefix}-normal`}>Hunde (ohne gefährliche)</label>
+      <input id={`${idPrefix}-normal`} name="normal" type="number" inputmode="numeric" min="0" max="5" value="1" />
+    </div>
+    {
+      hasDangerous && (
+        <div>
+          <label class="label" for={`${idPrefix}-dangerous`}>Gefährliche Hunde</label>
+          <input id={`${idPrefix}-dangerous`} name="dangerous" type="number" inputmode="numeric" min="0" max="3" value="0" />
+        </div>
+      )
+    }
+  </div>
+  <p class="rechner__result" aria-live="polite">
+    <span class="label">Steuer im Jahr</span>
+    <output class="rechner__sum" data-sum>–</output>
+  </p>
+  <p class="caption" data-note hidden>
+    Die Satzung regelt nicht, wie normale und gefährliche Hunde gemeinsam gezählt werden. Gezeigt werden beide Beträge getrennt.
+  </p>
+</form>
+
+<script>
+  import { yearlyTotal } from '../lib/calc';
+  import type { Tier } from '../lib/model';
+  import { formatEur } from '../lib/stats';
+
+  const form = document.querySelector<HTMLFormElement>('form.rechner');
+  if (form) {
+    const tiers = JSON.parse(form.dataset.tiers ?? '[]') as Tier[];
+    const sum = form.querySelector<HTMLOutputElement>('[data-sum]')!;
+    const note = form.querySelector<HTMLElement>('[data-note]')!;
+    let tracked = false;
+    const clamp = (el: HTMLInputElement | null, max: number) =>
+      el ? Math.min(max, Math.max(0, Math.floor(Number(el.value) || 0))) : 0;
+    const update = () => {
+      const normal = clamp(form.elements.namedItem('normal') as HTMLInputElement, 5);
+      const dangerous = clamp(form.elements.namedItem('dangerous') as HTMLInputElement | null, 3);
+      const t = yearlyTotal(tiers, { normal, dangerous });
+      note.hidden = !t.mixedUndefined;
+      sum.textContent = t.mixedUndefined
+        ? `${formatEur(t.normal)} und ${formatEur(t.dangerous)} (gefährlich)`
+        : formatEur(t.sum);
+      if (!tracked) {
+        tracked = true;
+        (window as unknown as { plausible?: (e: string) => void }).plausible?.('Rechner');
+      }
+    };
+    form.addEventListener('input', update);
+    update();
+  }
+</script>
+
+<style>
+  .rechner__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-5);
+    margin-bottom: var(--s-4);
+  }
+  .rechner input {
+    width: 6rem;
+  }
+  .rechner__result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-1);
+  }
+  .rechner__sum {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--fs-h1);
+    line-height: 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.55), 1px 1px 0 rgba(30, 36, 32, 0.35);
+  }
+</style>

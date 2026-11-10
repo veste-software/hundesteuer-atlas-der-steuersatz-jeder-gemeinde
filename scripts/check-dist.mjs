@@ -75,6 +75,24 @@ for (const f of files) {
   }
 }
 
+// Municipality pages (AC 8): every one must carry the required elements.
+for (const [name, html] of pages) {
+  if (!/^hundesteuer[\\/][^\\/]+[\\/]index\.html$/.test(name)) continue;
+  const required = [
+    [/<h1[^>]*>\s*Hundesteuer /, 'H1 "Hundesteuer <Name>"'],
+    [/<table/, 'rates table'],
+    [/class="margin"/, '§ margin column'],
+    [/Satzung öffnen/, 'bylaw link'],
+    [/abgerufen am \d{2}\.\d{2}\.\d{4}/, 'retrieval date'],
+    [/Ermäßigungen und Befreiungen laut Satzung/, 'reliefs section'],
+    [/Taf\. 2/, 'static totals table'],
+    [/Angaben ohne Gewähr\. Verbindlich ist allein die Satzung der Gemeinde\./, 'disclaimer'],
+    [/Fehler melden/, '"Fehler melden"'],
+    [/BreadcrumbList/, 'BreadcrumbList JSON-LD'],
+  ];
+  for (const [re, label] of required) if (!re.test(html)) fail(`${name}: missing ${label}`);
+}
+
 // Sitemap: every entry must exist and must not be noindex.
 const sitemapFile = path.join(dist, 'sitemap.xml');
 if (!fs.existsSync(sitemapFile)) fail('sitemap.xml missing');
