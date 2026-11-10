@@ -61,3 +61,12 @@ Suggested libraries (no UI kits): `unpdf` (PDF text, no native deps), `node-html
 - Session 1: tasks A and the model/calc/slug/fetcher tasks are done. The network tasks (municipality list, fixtures) need a session or a human with web access; run `npm run municipalities` and `npm run fixture:add` once those scripts exist. The municipality list, fixtures and published records are prerequisites for the page, hubs, search and stats tasks.
 - `pipeline/fetch.ts` accepts injectable fetch and clock; `robots-parser` was added as a dependency.
 - Library code already written for later tasks (not ticked, pages and wiring still open): `src/lib/stats.ts` (tested), `src/lib/affiliate.ts` (tested), `src/lib/model.ts`.
+
+## QA round 1
+
+- [ ] [QA round 1] No municipality data: data/ is missing (no 396-entry list, no data/nw/*.json, no coverage-nw.md). AC 2, 5 and 6 fail. (data/)
+- [ ] [QA round 1] No municipality pages exist, so no page answers 'hundesteuer <gemeinde>'. Only 6 pages are built. AC 7 and 8 fail. (src/pages/hundesteuer/, dist/)
+- [ ] [QA round 1] No real bylaw fixtures and no extraction or validation tests on real text (AC 4, Paderborn 72 EUR / 600 EUR). Synthetic fixtures do not count. (test/fixtures/bylaws/, pipeline/extract.ts, pipeline/validate.ts)
+- [ ] [QA round 1] Homepage is a placeholder: invented 'Mustergemeinde' tag with a dash, 'Der Atlas wird gerade angelegt', no search field or index (AC 12). (src/pages/index.astro)
+- [ ] [QA round 1] /nrw/ hub has no table or content, and the sitemap lists only / and /methodik/. (src/pages/nrw/index.astro)
+- [ ] [QA round 1] npm audit --omit=dev reports 1 critical and 3 high vulnerabilities (astro <=7.3.1, sharp, zod) with a fix available via astro 7.4.8. Upgrade and re-run test, build and build:preview, or document why … (package.json / package-lock.json)
