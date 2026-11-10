@@ -56,6 +56,11 @@ for (const [name, html] of pages) {
     }
   }
 
+  // AC 15: legal pages linked from every footer.
+  const footer = html.match(/<footer[\s\S]*?<\/footer>/i)?.[0] ?? '';
+  if (!/href="[^"]*\/impressum\/"/.test(footer)) fail(`${name}: footer has no Impressum link`);
+  if (!/href="[^"]*\/datenschutz\/"/.test(footer)) fail(`${name}: footer has no Datenschutz link`);
+
   const is404 = name === '404.html';
   const title = html.match(/<title>([^<]*)<\/title>/i)?.[1];
   if (!title) fail(`${name}: missing <title>`);
