@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** qa · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.63
+**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.82
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -52,6 +52,10 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 42] Set up a first-party cookie-free Plausible-compatible analytics service and set PUBLIC_ANALYTICS_DOMAIN and PUBLIC_ANALYTICS_SRC
 - [ ] [task 43] Fill in the Impressum and Datenschutz placeholders, set PUBLIC_CONTACT_EMAIL, and have a lawyer review the legal pages and the affiliate setup
 - [ ] [task 44] Optionally supply one real social-share image (for example a rendered Steuermarke) for og:image
+- [ ] [task 45] Run the Wikidata municipality query and the NRW harvest with network access (npm run municipalities; npm run harvest), or give the next Builder run web access
+- [ ] [task 46] Spot-check 20 random municipality pages against their linked bylaws before announcing
+- [ ] [task 47] Have a lawyer review the legal pages (Impressum, Datenschutz) and the affiliate Tippgeber setup; fill in the placeholders and set PUBLIC_CONTACT_EMAIL
+- [ ] [task 48] Register a domain, set SITE_URL, apply on AWIN and set AFFILIATE_HAFTPFLICHT_URL, verify the domain in Google Search Console
 
 ## Recommendation
 
@@ -105,3 +109,4 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 - 2026-11-10 01:36 · building · build started
 - 2026-11-10 02:12 · seo · all planned tasks done
 - 2026-11-10 02:18 · qa · seo and conversion foundations written
+- 2026-11-10 02:24 · building · QA round 1 found 6 blocker(s)
