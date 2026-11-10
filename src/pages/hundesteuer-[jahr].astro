@@ -1,0 +1,56 @@
+---
+// Only generated when at least 5 published municipalities have a bylaw taking effect from 2027-01-01
+// (gate in src/lib/page.ts). Otherwise this file produces no route and is not in the sitemap.
+import type { GetStaticPaths } from 'astro';
+import Base from '../layouts/Base.astro';
+import { allRecords } from '../lib/data';
+import { firstDogRate, formatDate, future2027Records } from '../lib/page';
+import { formatEur } from '../lib/stats';
+import { withBase } from '../lib/url';
+
+export const getStaticPaths = (() => {
+  const rows = future2027Records(allRecords());
+  return rows.length ? [{ params: { jahr: '2027' }, props: { rows } }] : [];
+}) satisfies GetStaticPaths;
+
+const { rows } = Astro.props;
+const sorted = [...rows].sort((a, b) => a.name.localeCompare(b.name, 'de'));
+---
+
+<Base
+  title="Hundesteuer 2027: Gemeinden mit neuen Sätzen"
+  description="Welche Gemeinden in NRW ihre Hundesteuer zum 1. Januar 2027 ändern: alter und neuer Satz für den ersten Hund, jeweils aus der Satzung."
+  path="/hundesteuer-2027/"
+>
+  <h1>Hundesteuer 2027</h1>
+  <p>
+    Diese Gemeinden haben eine Satzung beschlossen, die ab dem 1. Januar 2027 gilt. Alle Beträge stammen aus der
+    jeweiligen Satzung.
+  </p>
+  <table>
+    <caption>Taf. 1 · Satz für den ersten Hund, alt und neu</caption>
+    <thead>
+      <tr>
+        <th scope="col">Gemeinde</th>
+        <th scope="col">Bisher</th>
+        <th scope="col">Ab 2027</th>
+        <th scope="col">Satzung ab</th>
+      </tr>
+    </thead>
+    <tbody>
+      {sorted.map((r) => {
+        const old = r.history?.[0];
+        const oldRate = old ? firstDogRate(old.tiers) : null;
+        const newRate = firstDogRate(r.tiers!);
+        return (
+          <tr>
+            <th scope="row"><a href={withBase(`/hundesteuer/${r.slug}/`)}>{r.name}</a></th>
+            <td>{oldRate !== null ? formatEur(oldRate) : 'nicht erfasst'}</td>
+            <td>{newRate !== null ? formatEur(newRate) : 'nicht erfasst'}</td>
+            <td>{formatDate(r.bylaw!.inForceFrom)}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</Base>
