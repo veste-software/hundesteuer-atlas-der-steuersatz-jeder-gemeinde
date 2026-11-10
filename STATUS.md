@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $4.09
+**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $4.58
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -27,6 +27,9 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 17] Blocked: Text extraction + fixture tool (Paderborn fixture) (Needs to download the real Paderborn bylaw PDF; no web access, and synthetic fixtures do not count.)
 - [ ] [task 18] Blocked: Rate extraction (pipeline/extract.ts) (Needs the real Paderborn fixture text from the fixture task to write and test against.)
 - [ ] [task 19] Blocked: Validation and one published record (Needs extract.ts and a real fixture to produce a published record.)
+- [ ] [task 20] Blocked: Municipality master list (Wikidata SPARQL) (Needs web access to the Wikidata endpoint)
+- [ ] [task 21] Blocked: Text extraction + fixture tool, Paderborn and further real fixtures (Needs to download real bylaws; synthetic fixtures do not count)
+- [ ] [task 22] Blocked: Rate extraction, validation and published records, harvest runs (Depend on real fixtures and network access)
 
 ## Recommendation
 
