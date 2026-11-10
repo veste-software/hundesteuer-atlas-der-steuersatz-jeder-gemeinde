@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.35
+**Stage:** seo · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.42
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -39,6 +39,12 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 29] Blocked: Stats/neighbours, Kreis hubs, State hub, Homepage search, Methodik (Depend on harvested data in data/nw/, which does not exist yet)
 - [ ] [task 30] Blocked: Municipality master list (Wikidata) (No web access for the SPARQL endpoint)
 - [ ] [task 31] Blocked: Text extraction, fixtures, rate extraction, validation, harvest runs, and tasks depending on data (hubs, search index, stats wiring) (Need downloaded real bylaws and municipality data; no web access in the Builder shell)
+- [ ] [task 32] Blocked: Harvest orchestration (needs municipality list, text/extract/validate modules and network access)
+- [ ] [task 33] Blocked: Harvest the 30 largest NRW municipalities (needs network harvest runs)
+- [ ] [task 34] Blocked: Harvest the rest of NRW (needs network harvest runs)
+- [ ] [task 35] Blocked: Kreis hubs (needs municipality master list and published data)
+- [ ] [task 36] Blocked: State hub /nrw/ (needs published data)
+- [ ] [task 37] Blocked: Homepage search (needs data/ (master list and published records) for the index and the counter)
 
 ## Recommendation
 
@@ -90,3 +96,4 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 - 2026-11-10 01:16 · specced · spec written
 - 2026-11-10 01:28 · planned · scaffold and plan written
 - 2026-11-10 01:36 · building · build started
+- 2026-11-10 02:12 · seo · all planned tasks done
