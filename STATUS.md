@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** specced · **Platform:** web · **Score:** 3.3/5 · **Spend:** $1.90
+**Stage:** planned · **Platform:** web · **Score:** 3.3/5 · **Spend:** $3.63
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -15,6 +15,14 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 5] Enable the monthly harvest GitHub Actions workflow (contents write) and review the data diff after runs
 - [ ] [task 6] Optional: spot-check 20 random municipality pages against their linked bylaws before announcing
 - [ ] [task 7] Optional: create a Brave Search API key as BRAVE_SEARCH_API_KEY to raise bylaw discovery coverage
+- [ ] [task 8] Run npm install once if the Builder cannot, and commit package-lock.json (CI and Pages run npm ci)
+- [ ] [task 9] Have a lawyer review the legal pages (Impressum, Datenschutz) and the affiliate 'Tippgeber' setup
+- [ ] [task 10] Fill in the Impressum/Datenschutz placeholders and set PUBLIC_CONTACT_EMAIL
+- [ ] [task 11] Register a domain, connect static hosting and set SITE_URL
+- [ ] [task 12] Apply to a Hundehaftpflicht affiliate programme (e.g. on AWIN) and set AFFILIATE_HAFTPFLICHT_URL
+- [ ] [task 13] If analytics are wanted, set up a cookie-free Plausible-compatible service served from the own domain and set PUBLIC_ANALYTICS_DOMAIN and PUBLIC_ANALYTICS_SRC
+- [ ] [task 14] Enable the monthly harvest workflow in GitHub Actions (contents: write) once the Builder adds it
+- [ ] [task 15] Optional: create a Brave Search API key and set BRAVE_SEARCH_API_KEY
 
 ## Recommendation
 
@@ -64,3 +72,4 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 
 - 2026-11-10 01:08 · scouted · picked from the bench: score 3.3, under the usual 3.5; the review panel is skipped, the prototype is how it is judged
 - 2026-11-10 01:16 · specced · spec written
+- 2026-11-10 01:28 · planned · scaffold and plan written
