@@ -70,3 +70,12 @@ Suggested libraries (no UI kits): `unpdf` (PDF text, no native deps), `node-html
 - [~] [QA round 1] Homepage is a placeholder: invented 'Mustergemeinde' tag with a dash, 'Der Atlas wird gerade angelegt', no search field or index (AC 12). (src/pages/index.astro) (BLOCKED: no web access in the Builder environment; needs real data/harvest)
 - [~] [QA round 1] /nrw/ hub has no table or content, and the sitemap lists only / and /methodik/. (src/pages/nrw/index.astro) (BLOCKED: no web access in the Builder environment; needs real data/harvest)
 - [~] [QA round 1] npm audit --omit=dev reports 1 critical and 3 high vulnerabilities (astro <=7.3.1, sharp, zod) with a fix available via astro 7.4.8. Upgrade and re-run test, build and build:preview, or document why … (package.json / package-lock.json) (BLOCKED: astro upgrade needs npm registry access; npm audit and install are unavailable offline)
+
+## QA round 2
+
+- [ ] [QA round 2] No municipality data: data/ does not exist (no 396-entry list, no data/nw/*.json, no coverage-nw.md). AC 2, 5 and 6 fail. Needs a run or machine with network access (npm run municipalities, npm run h… (data/)
+- [ ] [QA round 2] No municipality pages are generated (0 under /hundesteuer/), so no page answers 'hundesteuer <gemeinde>'. AC 7 and 8 fail and the Kreis hubs do not exist. (src/pages/hundesteuer/[slug].astro, dist/)
+- [ ] [QA round 2] No real bylaw fixtures and no extraction or validation code or tests (AC 4, Paderborn 72 EUR / 600 EUR). pipeline/text.ts, extract.ts, validate.ts and municipalities.ts are missing. Synthetic fixture… (test/fixtures/bylaws/, pipeline/)
+- [ ] [QA round 2] Homepage is a placeholder: invented 'Mustergemeinde' tag, 'Der Atlas wird gerade angelegt', no search field or index file (AC 12). (src/pages/index.astro)
+- [ ] [QA round 2] /nrw/ hub has no table and the sitemap lists only / and /methodik/. (src/pages/nrw/index.astro)
+- [ ] [QA round 2] npm audit --omit=dev reports 1 critical and 3 high vulnerabilities (astro <=7.3.1, sharp, zod) with a fix via astro@7.4.8. Upgrade and re-run test, build and build:preview, or document why it cannot … (package.json / package-lock.json)
