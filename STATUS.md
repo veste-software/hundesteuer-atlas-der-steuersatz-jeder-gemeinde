@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** seo · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.42
+**Stage:** qa · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.63
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -45,6 +45,13 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 35] Blocked: Kreis hubs (needs municipality master list and published data)
 - [ ] [task 36] Blocked: State hub /nrw/ (needs published data)
 - [ ] [task 37] Blocked: Homepage search (needs data/ (master list and published records) for the index and the counter)
+- [ ] [task 38] Run npm test and npm run build once to confirm the new meta tags in Base.astro break nothing
+- [ ] [task 39] Run the harvest with network access (npm run harvest -- --state=NW) and commit data/ before launching; check data/coverage-nw.md and spot-check 20 pages against their bylaws
+- [ ] [task 40] Verify the domain in Google Search Console and Bing Webmaster Tools, submit sitemap.xml and enable IndexNow via Bing, after the first data is live
+- [ ] [task 41] Apply to a Hundehaftpflicht affiliate programme (e.g. AWIN) and set AFFILIATE_HAFTPFLICHT_URL
+- [ ] [task 42] Set up a first-party cookie-free Plausible-compatible analytics service and set PUBLIC_ANALYTICS_DOMAIN and PUBLIC_ANALYTICS_SRC
+- [ ] [task 43] Fill in the Impressum and Datenschutz placeholders, set PUBLIC_CONTACT_EMAIL, and have a lawyer review the legal pages and the affiliate setup
+- [ ] [task 44] Optionally supply one real social-share image (for example a rendered Steuermarke) for og:image
 
 ## Recommendation
 
@@ -97,3 +104,4 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 - 2026-11-10 01:28 · planned · scaffold and plan written
 - 2026-11-10 01:36 · building · build started
 - 2026-11-10 02:12 · seo · all planned tasks done
+- 2026-11-10 02:18 · qa · seo and conversion foundations written
