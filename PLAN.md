@@ -49,6 +49,8 @@ Suggested libraries (no UI kits): `unpdf` (PDF text, no native deps), `node-html
 
 ## Builder notes
 
+- Session 4: `src/lib/search.ts` + `test/search.test.ts` done (the homepage search task stays open: index file, island, counter need `data/`). All other open tasks need web access or data (`data/` still does not exist). Shell heredocs are denied; use the Write tool.
+
 - Session 3: `pipeline/run.ts` (worker pool, `--limit`, time limit with injectable clock, `coverageMarkdown`) with `test/run.test.ts` is done; the Harvest orchestration task stays open because the CLI cannot be wired until the municipality list, `text.ts`, `extract.ts` and `validate.ts` exist (all need web access). `/hundesteuer-2027/` is done.
 
 - Session 2: municipality page, Haftpflicht box, calculator, `src/lib/page.ts` (dates, totals, 2027 gate), `indexablePaths(records)` and the monthly workflow are done. There is no `data/` directory yet, so the page generates zero routes; I verified it once with a temporary record (all AC 8 elements present, sitemap listed it) and removed that record. Neighbours and the Kreis median are already on the page (the "Stats and neighbours" task still needs its own Kreis-hub wiring). `check:dist` now checks AC 8 elements on every municipality page. `PUBLIC_CONTACT_EMAIL` must be set for the mailto link; otherwise the page points to the Impressum. Add it to `.env.example` (could not read/edit that file this session).
