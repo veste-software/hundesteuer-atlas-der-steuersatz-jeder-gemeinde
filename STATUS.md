@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.18
+**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.35
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -37,6 +37,8 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 27] Blocked: Seven more real fixtures (Needs web access to download real NRW bylaws)
 - [ ] [task 28] Blocked: Harvest orchestration, harvest of the 30 largest and the rest of NRW (Needs network access plus the municipality list, text.ts, extract.ts and validate.ts, which are themselves blocked)
 - [ ] [task 29] Blocked: Stats/neighbours, Kreis hubs, State hub, Homepage search, Methodik (Depend on harvested data in data/nw/, which does not exist yet)
+- [ ] [task 30] Blocked: Municipality master list (Wikidata) (No web access for the SPARQL endpoint)
+- [ ] [task 31] Blocked: Text extraction, fixtures, rate extraction, validation, harvest runs, and tasks depending on data (hubs, search index, stats wiring) (Need downloaded real bylaws and municipality data; no web access in the Builder shell)
 
 ## Recommendation
 
