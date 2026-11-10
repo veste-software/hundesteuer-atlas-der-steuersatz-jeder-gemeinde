@@ -11,13 +11,15 @@
     "build": "astro build",
     "build:preview": "SITE_URL=https://example.github.io SITE_BASE=/preview astro build",
     "test": "vitest run",
+    "check:dist": "node scripts/check-dist.mjs",
     "design-check": "node scripts/design-check.mjs",
     "harvest": "tsx pipeline/harvest.ts"
   },
   "dependencies": {
     "@fontsource/barlow-condensed": "^5.1.0",
     "@fontsource/source-serif-4": "^5.1.0",
-    "astro": "^5.10.0"
+    "astro": "^5.10.0",
+    "robots-parser": "^3.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",

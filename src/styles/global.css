@@ -138,6 +138,19 @@ th {
 }
 
 /* Masthead with the double Amtsblatt rule */
+.skip {
+  position: absolute;
+  left: var(--s-2);
+  top: -4rem;
+  padding: var(--s-2) var(--s-3);
+  background: var(--tinte);
+  color: var(--papier);
+  z-index: 10;
+}
+.skip:focus {
+  top: var(--s-2);
+}
+
 .masthead {
   border-bottom: 3px double var(--tinte);
   padding: var(--s-4) 0 var(--s-3);
