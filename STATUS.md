@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** qa · **Platform:** web · **Score:** 3.3/5 · **Spend:** $6.13
+**Stage:** parked · **Platform:** web · **Score:** 3.3/5 · **Spend:** $6.23
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -8,6 +8,7 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 
 ## Needs you
 
+- [ ] Parked: QA still failing after 3 rounds: No municipality data: data/ does not exist (no 396-entry municipalities-nw.json, no per-municipality results, no coverage-nw.md). AC 2, 5 and 6 fail. Needs a run or machine with network access (npm run municipalities, npm run harvest). | No municipality pages are generated, so no page answers 'hund…. Fix it, then `npm run studio -- unpark hundesteuer-atlas-der-steuersatz-jeder-gemeinde`, or `npm run studio -- kill hundesteuer-atlas-der-steuersatz-jeder-gemeinde`
 - [ ] [task 1] Register a domain (e.g. hundesteuer-atlas.de) and connect static hosting; set SITE_URL
 - [ ] [task 2] Fill in the Impressum and Datenschutz placeholders and have a lawyer review the legal pages and the affiliate (Tippgeber) setup
 - [ ] [task 3] Apply as a publisher on AWIN to a Hundehaftpflicht programme and set AFFILIATE_HAFTPFLICHT_URL
@@ -74,6 +75,9 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 64] Blocked: [QA round 2] Homepage is a placeholder (Search index, coverage counter and real tag rate need published data)
 - [ ] [task 65] Blocked: [QA round 2] /nrw/ hub has no table (Needs published municipality data)
 - [ ] [task 66] Blocked: [QA round 2] npm audit vulnerabilities (astro upgrade) (Upgrading astro needs npm registry access, unavailable offline)
+- [ ] [task 67] Run the Wikidata municipality query and the harvest (npm run municipalities, npm run harvest) from a machine with network access, or give the next Builder run web access
+- [ ] [task 68] Have a lawyer review the legal pages (Impressum, Datenschutz) and the affiliate setup; fill in the placeholders and set PUBLIC_CONTACT_EMAIL
+- [ ] [task 69] Register the domain, set SITE_URL, set up AWIN and AFFILIATE_HAFTPFLICHT_URL, verify Search Console
 
 ## Recommendation
 
@@ -131,3 +135,4 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 - 2026-11-10 02:29 · qa · all planned tasks done
 - 2026-11-10 02:35 · building · QA round 2 found 6 blocker(s)
 - 2026-11-10 02:40 · qa · all planned tasks done
+- 2026-11-10 02:45 · parked · QA still failing after 3 rounds: No municipality data: data/ does not exist (no 396-entry municipalities-nw.json, no per-municipality results, no coverage-nw.md). AC 2, 5 and 6 fail. Needs a run or machine with network access (npm run municipalities, npm run harvest). | No municipality pages are generated, so no page answers 'hund…
