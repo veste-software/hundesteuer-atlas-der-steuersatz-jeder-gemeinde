@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $6.06
+**Stage:** qa · **Platform:** web · **Score:** 3.3/5 · **Spend:** $6.13
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -68,6 +68,12 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 58] Register the domain, set SITE_URL, set up AWIN and AFFILIATE_HAFTPFLICHT_URL, and verify Search Console.
 - [ ] [task 59] Enable the monthly harvest workflow in GitHub Actions once data exists.
 - [ ] [task 60] Run npm audit fix --force (astro 7.4.8) on a machine with registry access if the Builder cannot.
+- [ ] [task 61] Blocked: [QA round 2] No municipality data (data/) (Needs Wikidata SPARQL and a network harvest; Builder has no web access)
+- [ ] [task 62] Blocked: [QA round 2] No municipality pages generated (Depends on published records from the harvest)
+- [ ] [task 63] Blocked: [QA round 2] No real bylaw fixtures / extract, validate, text, municipalities code (Needs downloading real bylaws (Paderborn etc.) and running unpdf; no web access)
+- [ ] [task 64] Blocked: [QA round 2] Homepage is a placeholder (Search index, coverage counter and real tag rate need published data)
+- [ ] [task 65] Blocked: [QA round 2] /nrw/ hub has no table (Needs published municipality data)
+- [ ] [task 66] Blocked: [QA round 2] npm audit vulnerabilities (astro upgrade) (Upgrading astro needs npm registry access, unavailable offline)
 
 ## Recommendation
 
@@ -124,3 +130,4 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 - 2026-11-10 02:24 · building · QA round 1 found 6 blocker(s)
 - 2026-11-10 02:29 · qa · all planned tasks done
 - 2026-11-10 02:35 · building · QA round 2 found 6 blocker(s)
+- 2026-11-10 02:40 · qa · all planned tasks done
