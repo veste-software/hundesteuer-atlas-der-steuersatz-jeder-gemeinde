@@ -55,6 +55,11 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 - A spot check of 30 random published rates finds more than 1 wrong amount: unpublish the affected pages and fix extraction before any growth work
 - No affiliate sale by 2027-06-30 despite more than 3,000 visits: remove the box and decide between consent-based ads and shutdown
 
+## Links
+
+- Repo: https://github.com/veste-software/hundesteuer-atlas-der-steuersatz-jeder-gemeinde
+- Preview (GitHub Pages, builds from main): https://veste-software.github.io/hundesteuer-atlas-der-steuersatz-jeder-gemeinde/
+
 ## History
 
 - 2026-11-10 01:08 · scouted · picked from the bench: score 3.3, under the usual 3.5; the review panel is skipped, the prototype is how it is judged

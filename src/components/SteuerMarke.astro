@@ -1,0 +1,114 @@
+---
+// The signature element: a stamped dog-tax tag drawn as a thin-line SVG (see DESIGN.md).
+// Decorative only; the same amount must always appear as real text in the rates table.
+interface Props {
+  gemeinde: string;
+  year: number;
+  /** First-dog rate in whole euros, as printed on the tag. */
+  amount: number | string;
+  /** Enamel colour token for the year band, e.g. "var(--emaille-2027)". */
+  enamel?: string;
+  figure?: string;
+  caption?: string;
+}
+
+const { gemeinde, year, amount, enamel = 'var(--emaille)', figure, caption } = Astro.props;
+---
+
+<figure class="marke">
+  <div class="marke__plate" aria-hidden="true">
+    <svg viewBox="0 0 200 250" class="marke__svg" focusable="false">
+      <path
+        class="marke__outline"
+        d="M34 46 Q34 22 58 22 H142 Q166 22 166 46 V158 Q166 206 100 232 Q34 206 34 158 Z"
+      ></path>
+      <rect x="35" y="72" width="130" height="16" style={`fill:${enamel}`}></rect>
+      <circle class="marke__hole" cx="100" cy="44" r="9"></circle>
+      <circle class="marke__ring" cx="100" cy="44" r="13"></circle>
+    </svg>
+    <span class="marke__name">{gemeinde}</span>
+    <span class="marke__amount">{amount}<small>&nbsp;€</small></span>
+    <span class="marke__year">{year}</span>
+  </div>
+  {
+    (figure || caption) && (
+      <figcaption class="caption">
+        {figure && <span class="label">{figure}</span>} {caption}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .marke {
+    margin: 0;
+    width: min(15rem, 70vw);
+  }
+  .marke__plate {
+    position: relative;
+    aspect-ratio: 200 / 250;
+    font-family: var(--font-display);
+    text-align: center;
+    color: var(--tinte);
+  }
+  .marke__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .marke__outline {
+    fill: var(--alu);
+    stroke: var(--tinte);
+    stroke-width: 1.5;
+  }
+  .marke__hole {
+    fill: var(--papier);
+    stroke: var(--tinte);
+    stroke-width: 1.5;
+  }
+  .marke__ring {
+    fill: none;
+    stroke: var(--tinte);
+    stroke-width: 0.75;
+  }
+  .marke__name,
+  .marke__amount,
+  .marke__year {
+    position: absolute;
+    left: 18%;
+    right: 18%;
+    /* stamped, not glowing: one light and one dark 1px offset, no blur */
+    text-shadow:
+      -1px -1px 0 rgba(255, 255, 255, 0.55),
+      1px 1px 0 rgba(30, 36, 32, 0.35);
+  }
+  .marke__name {
+    top: 39%;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+    line-height: 1.05;
+  }
+  .marke__amount {
+    top: 49%;
+    font-weight: 600;
+    font-size: clamp(3rem, 12vw, 4.5rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .marke__amount small {
+    font-size: 0.4em;
+  }
+  .marke__year {
+    top: 77%;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+  }
+  figcaption {
+    margin-top: var(--s-2);
+  }
+</style>

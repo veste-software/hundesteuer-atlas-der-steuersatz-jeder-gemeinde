@@ -1,0 +1,325 @@
+/* Hundesteuer-Atlas: one stylesheet, tokens first. See DESIGN.md before changing anything. */
+
+:root {
+  /* Colours */
+  --papier: #e4e9df;
+  --tinte: #1e2420;
+  --alu: #c3c8c1;
+  --emaille-2026: #a3361f;
+  --emaille-2027: #1f5a73;
+  --emaille: var(--emaille-2026); /* the current tax year's enamel */
+  --papier-hell: color-mix(in srgb, var(--papier) 55%, #ffffff);
+
+  /* Type */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-text: 'Source Serif 4', Georgia, serif;
+  --fs-mark: clamp(4rem, 14vw, 7rem);
+  --fs-h1: clamp(2.5rem, 7vw, 4.25rem);
+  --fs-h2: 1.75rem;
+  --fs-h3: 1.25rem;
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+  --fs-label: 0.8125rem;
+
+  /* Spacing */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2.25rem;
+  --s-7: 3.5rem;
+  --s-8: 5.5rem;
+
+  /* Grid */
+  --page: 72rem;
+  --margin-col: 7rem;
+  --measure: 62ch;
+  --rule: 1px solid var(--tinte);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--papier);
+  color: var(--tinte);
+  font-family: var(--font-text);
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  font-variant-numeric: lining-nums;
+}
+
+::selection {
+  background: var(--emaille);
+  color: var(--papier);
+}
+
+:focus-visible {
+  outline: 2px solid var(--emaille);
+  outline-offset: 3px;
+}
+
+/* Headings */
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  margin: 0 0 var(--s-4);
+}
+h1 {
+  font-size: var(--fs-h1);
+}
+h2 {
+  font-size: var(--fs-h2);
+  margin-top: var(--s-7);
+}
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  margin: var(--s-6) 0 var(--s-2);
+}
+p,
+ul,
+ol {
+  margin: 0 0 var(--s-4);
+  max-width: var(--measure);
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 120ms ease;
+}
+a:hover {
+  color: var(--emaille);
+}
+
+/* Labels: the lettering stamped on official forms */
+.label {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Field-guide caption */
+.caption,
+caption {
+  font-style: italic;
+  font-size: var(--fs-small);
+  text-align: left;
+}
+
+.num,
+td,
+th {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Page frame */
+.page {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 0 var(--s-4);
+}
+
+/* Masthead with the double Amtsblatt rule */
+.masthead {
+  border-bottom: 3px double var(--tinte);
+  padding: var(--s-4) 0 var(--s-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-5);
+}
+.masthead a {
+  text-decoration: none;
+}
+.masthead .wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+}
+.masthead nav {
+  display: flex;
+  gap: var(--s-4);
+}
+
+/* Margin column: § numbers, figure numbers, dates hang to the left */
+.ruled {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-2);
+  border-top: var(--rule);
+  padding-top: var(--s-4);
+  margin-top: var(--s-6);
+}
+.ruled > .margin {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+@media (min-width: 48rem) {
+  .ruled {
+    grid-template-columns: var(--margin-col) minmax(0, 1fr);
+    gap: var(--s-5);
+  }
+  .ruled > .margin {
+    font-size: var(--fs-h2);
+    line-height: 1;
+  }
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+caption {
+  padding-bottom: var(--s-2);
+}
+th {
+  font-family: var(--font-display);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--alu);
+  text-align: left;
+}
+th,
+td {
+  padding: var(--s-2) var(--s-3);
+  border-bottom: var(--rule);
+  vertical-align: baseline;
+}
+td.num,
+th.num {
+  text-align: right;
+}
+
+/* Buttons: square, stamped lettering, fill swaps on hover */
+.button,
+button {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: var(--s-2) var(--s-4);
+  border: var(--rule);
+  border-radius: 0;
+  background: var(--tinte);
+  color: var(--papier);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.button:hover,
+button:hover {
+  background: var(--papier);
+  color: var(--tinte);
+}
+.button.secondary,
+button.secondary {
+  background: var(--papier);
+  color: var(--tinte);
+}
+.button.secondary:hover,
+button.secondary:hover {
+  background: var(--tinte);
+  color: var(--papier);
+}
+
+/* Inputs: a field on a paper form */
+label {
+  display: block;
+}
+input,
+select {
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  color: var(--tinte);
+  background: var(--papier-hell);
+  border: 0;
+  border-bottom: var(--rule);
+  border-radius: 0;
+  padding: var(--s-2) var(--s-2);
+  min-height: 2.75rem;
+}
+
+/* Notices: an aluminium-tinted plate with a label word, no side bar */
+.notice {
+  background: var(--alu);
+  padding: var(--s-4) var(--s-5);
+  max-width: var(--measure);
+}
+.notice > .label:first-child {
+  display: block;
+  margin-bottom: var(--s-2);
+}
+.future {
+  color: var(--emaille-2027);
+}
+
+/* Footer */
+.colophon {
+  border-top: 3px double var(--tinte);
+  margin-top: var(--s-8);
+  padding: var(--s-5) 0 var(--s-7);
+  font-size: var(--fs-small);
+}
+.colophon p {
+  max-width: none;
+}
+.colophon nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+  margin-bottom: var(--s-3);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media print {
+  html {
+    background: #ffffff;
+  }
+  .masthead nav,
+  .no-print {
+    display: none;
+  }
+  a {
+    text-decoration: none;
+  }
+}

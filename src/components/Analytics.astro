@@ -1,0 +1,14 @@
+---
+// Cookie-free analytics (Plausible-compatible), off unless both variables are set.
+// SPEC acceptance criterion 13 forbids third-party <script> tags, so PUBLIC_ANALYTICS_SRC
+// must be a first-party path (e.g. "/js/stats.js" proxied by the host), never another domain.
+// Custom events: call window.plausible?.('event-name') from islands; it is a no-op when off.
+import { withBase } from '../lib/url';
+
+const domain = import.meta.env.PUBLIC_ANALYTICS_DOMAIN;
+const rawSrc = import.meta.env.PUBLIC_ANALYTICS_SRC;
+const isFirstParty = typeof rawSrc === 'string' && rawSrc.startsWith('/') && !rawSrc.startsWith('//');
+const src = domain && isFirstParty ? withBase(rawSrc) : undefined;
+---
+
+{src && <script is:inline defer data-domain={domain} src={src}></script>}

@@ -1,0 +1,47 @@
+---
+// Scaffold homepage. The Builder replaces the placeholder parts with the search island,
+// the coverage counter from data/ and the Kreis links (see PLAN.md).
+import Base from '../layouts/Base.astro';
+import SteuerMarke from '../components/SteuerMarke.astro';
+import { withBase } from '../lib/url';
+---
+
+<Base
+  title="Hundesteuer-Atlas: der Steuersatz Ihrer Gemeinde aus der Satzung"
+  description="Hundesteuer für jede Gemeinde in NRW: Satz für den ersten, zweiten und gefährlichen Hund, direkt aus der Hundesteuersatzung zitiert, mit Link und Datum."
+  path="/"
+>
+  <div class="opening">
+    <div>
+      <p class="label">Amtsblatt für Hundehalter · Nordrhein-Westfalen</p>
+      <h1>Was kostet der Hund in Ihrer Gemeinde?</h1>
+      <p>
+        Jede Gemeinde legt die Hundesteuer in einer eigenen Satzung fest. Hier steht der Satz Ihrer Gemeinde,
+        direkt aus der Satzung zitiert, mit Paragraf, Link und Datum.
+      </p>
+      <p class="caption">Der Atlas wird gerade angelegt. Noch ist keine Gemeinde erfasst.</p>
+      <p><a class="button" href={withBase('/nrw/')}>Alle Gemeinden in NRW</a></p>
+    </div>
+    <SteuerMarke
+      gemeinde="Mustergemeinde"
+      year={2026}
+      amount="—"
+      figure="Abb. 1"
+      caption="Muster einer Steuermarke. Der echte Betrag steht in der Satzung Ihrer Gemeinde."
+    />
+  </div>
+</Base>
+
+<style>
+  .opening {
+    display: grid;
+    gap: var(--s-6);
+    padding-top: var(--s-7);
+  }
+  @media (min-width: 48rem) {
+    .opening {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+  }
+</style>

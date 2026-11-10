@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import SteuerMarke from '../components/SteuerMarke.astro';
+import { withBase } from '../lib/url';
+---
+
+<Base
+  title="Seite nicht gefunden"
+  description="Für diese Adresse ist keine Marke ausgegeben."
+  path="/404/"
+  noindex
+>
+  <div class="lost">
+    <div>
+      <p class="label">Fehler 404</p>
+      <h1>Für diese Adresse ist keine Marke ausgegeben.</h1>
+      <p>
+        Vielleicht ist die Gemeinde noch nicht erfasst, oder der Link hat sich verlaufen. Die Übersicht aller
+        Gemeinden finden Sie unter <a href={withBase('/nrw/')}>Hundesteuer NRW</a>.
+      </p>
+    </div>
+    <SteuerMarke gemeinde="Unbekannt" year={404} amount="?" figure="Abb. 404" caption="Marke ohne Halter." />
+  </div>
+</Base>
+
+<style>
+  .lost {
+    display: grid;
+    gap: var(--s-6);
+    padding-top: var(--s-7);
+  }
+  @media (min-width: 48rem) {
+    .lost {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+</style>
