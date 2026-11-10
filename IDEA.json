@@ -1,0 +1,63 @@
+{
+  "title": "Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung",
+  "pitch": "For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.",
+  "platform": "web",
+  "language": "de",
+  "targetQueries": [
+    "hundesteuer [gemeinde]",
+    "hundesteuer [stadt] 2027",
+    "hundesteuer zweiter hund [stadt]",
+    "hundesteuer listenhund [stadt]",
+    "hundesteuer befreiung [stadt]"
+  ],
+  "evidence": [
+    {
+      "url": "https://www.nw.de/lokal/kreis_paderborn/paderborn/24455572_Hoehere-Hundesteuer-fuer-Paderborn-Politiker-beschliessen-deutliche-Erhoehung.html",
+      "note": "Paderborn raises the first-dog tax from 72 to 120 EUR from January 2027 (unchanged since 2000). An online petition against it ran until 11 November.",
+      "date": "2026-11-05"
+    },
+    {
+      "url": "https://www.deutschland-rechner.de/hundesteuer-rechner",
+      "note": "The best calculator found covers only 33 large cities (checked 2026-10-17) and lists 2027 rates for Hamburg, Munich and Nuremberg. Other municipalities are not covered.",
+      "date": "2026-10-17"
+    }
+  ],
+  "competitors": [
+    {
+      "name": "deutschland-rechner.de Hundesteuer-Rechner",
+      "url": "https://www.deutschland-rechner.de/hundesteuer-rechner",
+      "verdict": "partial",
+      "gap": "33 large cities only."
+    },
+    {
+      "name": "finanz.de Hundesteuer",
+      "url": "https://www.finanz.de/steuern/hundesteuer/",
+      "verdict": "partial",
+      "gap": "Compares 14 large cities, according to the search result (not opened)."
+    },
+    {
+      "name": "Bund der Steuerzahler NRW Hundesteuervergleich",
+      "url": "https://steuerzahler.de/aktuelles/detail/es-wird-teurer-hundesteuer-vergleich-2026/",
+      "verdict": "partial",
+      "gap": "NRW only, PDF tables published once a year, nothing per municipality."
+    },
+    {
+      "name": "Omni Calculator Hundesteuer-Rechner",
+      "url": "https://www.omnicalculator.com/de/finanzen/hundesteuer-rechner",
+      "verdict": "partial",
+      "gap": "Shows state-level guide values according to the search summary (not opened)."
+    }
+  ],
+  "trigger": {
+    "what": "A wave of dog-tax increases for 2027 decided in the Oct-Nov 2026 budget sessions (e.g. Paderborn 72 to 120 EUR from January 2027, final council vote 2026-11-12). This recurs every year.",
+    "date": "2026-11-05",
+    "url": "https://www.nw.de/lokal/kreis_paderborn/paderborn/24455572_Hoehere-Hundesteuer-fuer-Paderborn-Politiker-beschliessen-deutliche-Erhoehung.html"
+  },
+  "window": "Standing gap with a yearly peak: rates change on January 1 after autumn budget votes. The only per-municipality data sets are hand-made and partial (33 or 14 big cities, NRW-only PDFs), and nobody covers the roughly 10,000 smaller municipalities, where a search returns only insurers' generic pages.",
+  "monetizationIdea": "Affiliate links to dog liability insurance comparisons (insurers such as Allianz and ARAG run dog-tax pages for exactly this audience), plus display ads. A municipality's page is visited at the moment someone registers a new dog.",
+  "risks": [
+    "Wrong rate shown; always show source, date checked and a link to the bylaw",
+    "Do not copy the Bund der Steuerzahler tables (possible database right); extract from the bylaws themselves"
+  ],
+  "demandNote": "The dated items (Paderborn 2026-11-05, plus Black Forest towns raising 2027 rates in search results) show the topic is live and the data changes now, but I found no dated request for a lookup tool. Standing demand: about every dog owner must register and pay, and insurers, banks and pet retailers (…"
+}
