@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** planned · **Platform:** web · **Score:** 3.3/5 · **Spend:** $3.63
+**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $4.09
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -23,6 +23,10 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 13] If analytics are wanted, set up a cookie-free Plausible-compatible service served from the own domain and set PUBLIC_ANALYTICS_DOMAIN and PUBLIC_ANALYTICS_SRC
 - [ ] [task 14] Enable the monthly harvest workflow in GitHub Actions (contents: write) once the Builder adds it
 - [ ] [task 15] Optional: create a Brave Search API key and set BRAVE_SEARCH_API_KEY
+- [ ] [task 16] Blocked: Municipality master list (pipeline/municipalities.ts) (Needs the Wikidata SPARQL endpoint; the Builder has no web access. Run it with network access.)
+- [ ] [task 17] Blocked: Text extraction + fixture tool (Paderborn fixture) (Needs to download the real Paderborn bylaw PDF; no web access, and synthetic fixtures do not count.)
+- [ ] [task 18] Blocked: Rate extraction (pipeline/extract.ts) (Needs the real Paderborn fixture text from the fixture task to write and test against.)
+- [ ] [task 19] Blocked: Validation and one published record (Needs extract.ts and a real fixture to produce a published record.)
 
 ## Recommendation
 
@@ -73,3 +77,4 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 - 2026-11-10 01:08 · scouted · picked from the bench: score 3.3, under the usual 3.5; the review panel is skipped, the prototype is how it is judged
 - 2026-11-10 01:16 · specced · spec written
 - 2026-11-10 01:28 · planned · scaffold and plan written
+- 2026-11-10 01:36 · building · build started
