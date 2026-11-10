@@ -1,3 +1,17 @@
+# QA report, round 3
+
+Verdict: **fail**. Nothing changed since round 2. Checked by file listing and search (the shell was denied partway through, so I did not re-run test, build, audit or design-check this round):
+
+- `data/` still does not exist: no `municipalities-nw.json`, no per-municipality results, no `coverage-nw.md` (AC 2, 5, 6).
+- `test/fixtures/` does not exist, and `pipeline/` has only `harvest.ts`, `fetch.ts`, `discover.ts` and `run.ts`. There is no `text.ts`, `extract.ts`, `validate.ts` or `municipalities.ts` (AC 3, 4).
+- `src/pages/index.astro:22` still says "Der Atlas wird gerade angelegt. Noch ist keine Gemeinde erfasst." and line 26 still uses the invented name "Mustergemeinde" (AC 12).
+- `src/pages/hundesteuer/[slug].astro` exists but has no data to render, so no municipality page is built (AC 7, 8).
+- The Astro/sharp/zod audit finding was not re-checked. Treat it as still open.
+
+The round-2 report follows unchanged below.
+
+---
+
 # QA report, round 2
 
 Verdict: **fail**. Round 2 found no change in the product. All six round-1 blockers are still open. The Builder marked them BLOCKED because it had no web access, and no web access or data was added in between.
@@ -81,3 +95,12 @@ Verdict (round 1): **fail**. The scaffold is clean, but the product has no data.
 - (high) Homepage is a placeholder: invented 'Mustergemeinde' tag, 'Der Atlas wird gerade angelegt', no search field or index file (AC 12). [src/pages/index.astro]
 - (medium) /nrw/ hub has no table and the sitemap lists only / and /methodik/. [src/pages/nrw/index.astro]
 - (medium) npm audit --omit=dev reports 1 critical and 3 high vulnerabilities (astro <=7.3.1, sharp, zod) with a fix via astro@7.4.8. Upgrade and re-run test, build and build:preview, or document why it cannot be done. [package.json / package-lock.json]
+
+## Round 3: blockers
+
+- (high) No municipality data: data/ does not exist (no 396-entry municipalities-nw.json, no per-municipality results, no coverage-nw.md). AC 2, 5 and 6 fail. Needs a run or machine with network access (npm run municipalities, npm run harvest). [data/]
+- (high) No municipality pages are generated, so no page answers 'hundesteuer <gemeinde>'. AC 7 and 8 fail and the Kreis hubs do not exist. [src/pages/hundesteuer/[slug].astro, dist/]
+- (high) No real bylaw fixtures and no extraction or validation code or tests (AC 4, Paderborn 72 EUR / 600 EUR). pipeline/text.ts, extract.ts, validate.ts and municipalities.ts are missing. Synthetic fixtures do not count. [test/fixtures/bylaws/, pipeline/]
+- (high) Homepage is a placeholder: invented 'Mustergemeinde' tag and 'Der Atlas wird gerade angelegt. Noch ist keine Gemeinde erfasst.', no search field or index file (AC 12). [src/pages/index.astro]
+- (medium) /nrw/ hub has no municipality table, and the sitemap lists only / and /methodik/. [src/pages/nrw/index.astro]
+- (medium) npm audit --omit=dev reported 1 critical and 3 high issues in round 2 (astro <=7.3.1, sharp, zod) with a fix via astro@7.4.8. Not re-checked this round. Upgrade and re-run test, build and build:preview, or document why it cannot be done. [package.json / package-lock.json]
