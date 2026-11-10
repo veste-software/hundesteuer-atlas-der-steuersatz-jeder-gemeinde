@@ -1,6 +1,6 @@
 # Hundesteuer-Atlas: der Steuersatz jeder Gemeinde aus der eigenen Satzung
 
-**Stage:** building · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.82
+**Stage:** qa · **Platform:** web · **Score:** 3.3/5 · **Spend:** $5.89
 
 For dog owners and people about to get a dog in Germany: one page per municipality with the current and announced dog-tax rates (first and second dog, listed or dangerous dogs), reductions and exemptions, and a link to the bylaw, extracted from municipal bylaws and refreshed every budget season.
 
@@ -56,6 +56,12 @@ For dog owners and people about to get a dog in Germany: one page per municipali
 - [ ] [task 46] Spot-check 20 random municipality pages against their linked bylaws before announcing
 - [ ] [task 47] Have a lawyer review the legal pages (Impressum, Datenschutz) and the affiliate Tippgeber setup; fill in the placeholders and set PUBLIC_CONTACT_EMAIL
 - [ ] [task 48] Register a domain, set SITE_URL, apply on AWIN and set AFFILIATE_HAFTPFLICHT_URL, verify the domain in Google Search Console
+- [ ] [task 49] Blocked: [QA round 1] No municipality data (data/ missing) (Needs Wikidata/network harvest; no web access)
+- [ ] [task 50] Blocked: [QA round 1] No municipality pages (Depends on published records from the harvest)
+- [ ] [task 51] Blocked: [QA round 1] No real bylaw fixtures and extraction/validation tests (Needs downloading the real Paderborn bylaw; no web access)
+- [ ] [task 52] Blocked: [QA round 1] Homepage is a placeholder (Needs published data for search index and tag rate)
+- [ ] [task 53] Blocked: [QA round 1] /nrw/ hub has no content (Needs published data)
+- [ ] [task 54] Blocked: [QA round 1] npm audit vulnerabilities (astro upgrade to 7.4.8) (Upgrade needs npm registry access; npm audit and install are unavailable in this session)
 
 ## Recommendation
 
@@ -110,3 +116,4 @@ affiliate (dog liability insurance), no ads and no cookies at launch (Everything
 - 2026-11-10 02:12 · seo · all planned tasks done
 - 2026-11-10 02:18 · qa · seo and conversion foundations written
 - 2026-11-10 02:24 · building · QA round 1 found 6 blocker(s)
+- 2026-11-10 02:29 · qa · all planned tasks done
